@@ -1,0 +1,107 @@
+---
+title: Setup Prometheus and Cloud Pak for Data Service Monitor
+---
+
+The following steps can be used to manually configure Prometheus on the OpenShift cluster and forward the IBM Cloud Pak for Data zen-watchdog events to the OpenShift prometheus using a ServiceMonitor.
+
+Refer to https://docs.openshift.com/container-platform/4.8/monitoring/enabling-monitoring-for-user-defined-projects.html for more information.
+
+## OpenShift Prometheus
+
+OpenShift Prometheus can be configured with (persist data after pod restart) or without (loose data after pod restart) a storageclass. When using IBM Cloud, it is recommended to use the `ibmc-vpc-block-retain-general-purpose` block storageclass.
+
+### Configure without persisting data
+```
+cat << EOF | oc apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    enableUserWorkload: true
+EOF
+```
+
+### Configure with persisting data
+```
+cat << EOF | oc apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    enableUserWorkload: true
+    prometheusK8s: 
+      volumeClaimTemplate:
+       spec:
+         storageClassName: ibmc-vpc-block-retain-general-purpose
+         volumeMode: Filesystem
+         resources:
+           requests:
+             storage: 40Gi  
+EOF  
+```
+
+Using either methods, afterwards, wait for the Prometheus to completely start:
+```
+oc wait -n openshift-monitoring --for=condition=Ready pod -l app=prometheus --timeout=300s
+```
+
+### (Optional) Configure User Workload monitoring to use a storageclass
+
+```
+cat << EOF | oc apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    prometheus:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ibmc-vpc-block-retain-general-purpose
+          volumeMode: Filesystem
+          resources:
+            requests:
+              storage: 40Gi
+EOF
+```
+
+## Wait for User Workload monitoring to complete deployment
+
+Ensure the User Workload monitoring finishes its deployment
+
+```
+oc wait -n openshift-user-workload-monitoring --for=condition=Ready pod --all --timeout=600s
+```
+
+## Create IBM Cloud Pak for Data ServiceMonitor
+Now that Prometheus is setup completely, the IBM Cloud Pak for Data zen-watchdog can be configured to forward its events to OpenShift prometheus. This is implemented using a ServiceMonitor:
+
+Replace &lt;CP4D_PROJECT&gt; with the OpenShift project where IBM Cloud Pak for Data is deployed.
+
+```
+cat << EOF | oc apply -f -
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: <CP4D_PROJECT>
+  labels:
+    k8s-app: zen-watchdog-service-monitor
+  name: zen-watchdog
+spec:
+  endpoints:
+    - interval: 30s
+      port: zenwatchdog-notls
+      scheme: http
+  selector:
+    matchLabels:
+      component: zen-watchdog
+EOF
+```

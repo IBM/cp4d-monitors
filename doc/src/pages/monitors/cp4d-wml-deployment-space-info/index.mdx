@@ -1,0 +1,134 @@
+---
+title: Cloud Pak for Data Watson Machine Learning Development Space Information
+---
+
+## Monitor Summary
+
+This monitor will generate the following observations:  
+- Number of Cloud Pak for Data Waston Machine Learning Deployment Spaces
+- Number of Cloud Pak for Data Waston Machine Learning Deployments per space
+- Number of Failed Cloud Pak for Data Waston Machine Learning Deployments per space
+- Number of Online Cloud Pak for Data Waston Machine Learning Deployments per space
+- Number of Batch Cloud Pak for Data Waston Machine Learning Deployments per space
+
+## Monitor Requirements
+
+In order for Watson Studio Job Information to be available, CCS (Common Core Services) must be available on the Cloud Pak for Data instance. Catridges like Watson Studio and Watson Machine Learning automatically install CCS as part of their dependencies. If CCS is not available, no watson studio job information is available.
+
+## Administrative Credential Requirements
+
+In order to retrieve the monitor data, the credential of admin user will be used. The default password of admin user is saved in the secret admin-user-details. You could use the below command to query the default password of the admin user..
+```
+oc extract secret/admin-user-details --keys=initial_admin_password --to=-
+```
+Once the password of the admin user is changed, please also change the password in the secret admin-user-details. 
+```
+oc set data secret/admin-user-details initial_admin_password=<new password>
+```
+
+## Deployment of the monitor
+
+This monitor can be deployed using the IBM Cloud Pak Deployer or manually deployed using oc commands:
+- [Cloud Pak Deployer](/monitors/cp4d-wml-deployment-space-info/deployer) 
+- [Manual Deployment using oc commands](/monitors/cp4d-wml-deployment-space-info/manual)
+
+## Monitor Source
+
+Source folder containing the script can be found  [here (cp4d-wml-deployment-space-info).](https://github.ibm.com/CloudPakDeployer/cloud-pak-deployer-monitors/tree/master/cp4d-wml-deployment-space-info)
+
+## Generated observations
+
+Once the monitor is deployed, the following observations are available in IBM Cloud Pak for Data Metrics:
+
+### Using the IBM Cloud Pak for Data Platform Management Events:
+
+https://&lt;CP4D-BASE-URL&gt;/zen/#/platformManagement/events
+
+On the Platform Management Events page the following entries are added:
+
+| Event   | Event Type      | Possible values | Description |
+|:----------|:-------------|:------|:----------|
+| Cloud Pak for Data Waston Machine Learning Deployment Space Info Overall Count |Number of Cloud Pak for Data Waston Machine Learning Deployment Spaces |info| The Cloud Pak for Data Waston Machine Learning Spaces information are requested. |
+| Cloud Pak for Data Waston Machine Learning Deployment Space Deployed Count |Number of Cloud Pak for Data Waston Machine Learning Deployments per space |info| The Cloud Pak for Data Waston Machine Learning Spaces information are requested.  |
+| Cloud Pak for Data Waston Machine Learning Deployment Space Deployed Falied Count |Number of Failed Cloud Pak for Data Waston Machine Learning Deployments per space |info| The Cloud Pak for Data Waston Machine Learning Spaces information are requested. |
+| Cloud Pak for Data Waston Machine Learning Deployment Space Deployed Count Online | Number of Online Cloud Pak for Data Waston Machine Learning Deployments per space |info| The Cloud Pak for Data Waston Machine Learning Spaces information are requested. |
+| Cloud Pak for Data Waston Machine Learning Deployment Space Deployed Count Batch |Number of Batch Cloud Pak for Data Waston Machine Learning Deployments per space |info| The Cloud Pak for Data Waston Machine Learning Spaces information are requested. |
+
+![Overview Events and Alerts](cp4d_events.png?raw=true "Overview Events and Alerts")
+
+### Using the IBM Cloud Pak for Data Prometheus endpoint
+https://&lt;CP4D-BASE-URL&gt;/zen/metrics
+
+It will generate 2 types of metrics:
+- Actual Result metrics  
+  These metrics contain the observed values
+- Zen Watchdog metrics  
+  These metrics are used by the Cloud Pak for Data Zen Watchdog to monitor the state and trigger notifications
+
+**Actual Result metrics:**
+- cp4d_wml_deployment_space_info_overall_count
+  Provides number of Cloud Pak for Data Waston Machine Learning Deployment Spaces
+- cp4d_wml_deployment_space_deployed_count
+  Provides number of Cloud Pak for Data Waston Machine Learning Deployments per space
+- cp4d_wml_deployment_space_deployed_fail_count
+  Provides number of Failed Cloud Pak for Data Waston Machine Learning Deployments per space
+- cp4d_wml_deployment_space_deployed_count_online
+  Provides number of Online Cloud Pak for Data Waston Machine Learning Deployments per space
+- cp4d_wml_deployment_space_deployed_count_batch
+  Provides number of Batch Cloud Pak for Data Waston Machine Learning Deployments per space
+
+```
+# HELP cp4d_wml_deployment_space_deployed_count 
+# TYPE cp4d_wml_deployment_space_deployed_count gauge
+cp4d_wml_deployment_space_deployed_count{event_type="cp4d_wml_deployment_space_deployed_count",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 2
+# HELP cp4d_wml_deployment_space_deployed_count_batch 
+# TYPE cp4d_wml_deployment_space_deployed_count_batch gauge
+cp4d_wml_deployment_space_deployed_count_batch{event_type="cp4d_wml_deployment_space_deployed_count_batch",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 1
+# HELP cp4d_wml_deployment_space_deployed_count_online 
+# TYPE cp4d_wml_deployment_space_deployed_count_online gauge
+cp4d_wml_deployment_space_deployed_count_online{event_type="cp4d_wml_deployment_space_deployed_count_online",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 1
+# HELP cp4d_wml_deployment_space_deployed_fail_count 
+# TYPE cp4d_wml_deployment_space_deployed_fail_count gauge
+cp4d_wml_deployment_space_deployed_fail_count{event_type="cp4d_wml_deployment_space_deployed_fail_count",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 0
+# HELP cp4d_wml_deployment_space_info_overall_count 
+# TYPE cp4d_wml_deployment_space_info_overall_count gauge
+cp4d_wml_deployment_space_info_overall_count{event_type="cp4d_wml_deployment_space_info_overall_count",monitor_type="cp4d_wml_deployment_space_info",reference="All Deployment Space"} 2
+```
+
+**Zen Watchdog metrics** (used in platform management events)
+- watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_info_overall_count
+- watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count 
+- watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_fail_count
+- watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_online
+- watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_batch
+
+Zen Watchdog metrics can have the following values:
+- 2 (info)
+- 1 (warning)
+- 0 (critical)
+
+
+```
+# HELP watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count 
+# TYPE watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count gauge
+watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count{event_type="cp4d_wml_deployment_space_deployed_count",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 2
+# HELP watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_batch 
+# TYPE watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_batch gauge
+watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_batch{event_type="cp4d_wml_deployment_space_deployed_count_batch",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 2
+# HELP watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_online 
+# TYPE watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_online gauge
+watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_count_online{event_type="cp4d_wml_deployment_space_deployed_count_online",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 2
+# HELP watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_fail_count 
+# TYPE watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_fail_count gauge
+watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_deployed_fail_count{event_type="cp4d_wml_deployment_space_deployed_fail_count",monitor_type="cp4d_wml_deployment_space_info",reference="test-demo"} 2
+# HELP watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_info_overall_count 
+# TYPE watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_info_overall_count gauge
+watchdog_cp4d_wml_deployment_space_info_cp4d_wml_deployment_space_info_overall_count{event_type="cp4d_wml_deployment_space_info_overall_count",monitor_type="cp4d_wml_deployment_space_info",reference="All Deployment Space"} 2
+```
+
+
+
+
+
+
+

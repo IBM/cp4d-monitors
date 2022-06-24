@@ -1,0 +1,84 @@
+---
+title: Cloud Pak for Data Cognos Analytic Connections Information
+---
+
+## Monitor Summary
+
+This monitor will generate the following observations:  
+- Count of Cloud Pak for Data Cognos Analytic Connections  
+
+## Monitor Requirements
+
+In order for Watson Studio Job Information to be available, CCS (Common Core Services) must be available on the Cloud Pak for Data instance. Catridges like Watson Studio and Watson Machine Learning automatically install CCS as part of their dependencies. If CCS is not available, no watson studio job information is available.
+
+## Deployment of the monitor
+
+This monitor can be deployed using the IBM Cloud Pak Deployer or manually deployed using oc commands:
+- [Cloud Pak Deployer](/monitors/cp4d-cognos-connections-info/deployer) 
+- [Manual Deployment using oc commands](/monitors/cp4d-cognos-connections-info/manual)
+
+## Monitor Source
+
+Source folder containing the script can be found  [here (cp4d-cognos-connections-info).](https://github.ibm.com/CloudPakDeployer/cloud-pak-deployer-monitors/tree/master/cp4d-cognos-connections-info) 
+
+## Generated observations
+
+Once the monitor is deployed, the following observations are available in IBM Cloud Pak for Data Metrics:
+
+### Using the IBM Cloud Pak for Data Platform Management Events:
+
+https://&lt;CP4D-BASE-URL&gt;/zen/#/platformManagement/events
+
+On the Platform Management Events page the following entries are added:
+
+| Event   | Event Type      | Possible values | Description |
+|:----------|:-------------|:------|:----------|
+| Cloud Pak for Data Cognos Analytic Connections Information |Count of Cloud Pak for Data Cognos Analytic Connections |info| The Cloud Pak for Data Cognos Analytic connections information is requested. |
+
+![Overview Events and Alerts](cp4d_events.png?raw=true "Overview Events and Alerts")
+
+### Using the IBM Cloud Pak for Data Prometheus endpoint
+https://&lt;CP4D-BASE-URL&gt;/zen/metrics
+
+It will generate 2 types of metrics:
+- Actual Result metrics  
+  These metrics contain the observed values
+- Zen Watchdog metrics  
+  These metrics are used by the Cloud Pak for Data Zen Watchdog to monitor the state and trigger notifications
+
+**Actual Result metrics:**
+- cp4d_cognos_connections_count
+  Provides count of Cloud Pak for Data Cognos Analytic Connections
+
+```
+# HELP cp4d_cognos_task_last_status_duration_in_seconds 
+# TYPE cp4d_cognos_task_last_status_duration_in_seconds gauge
+cp4d_cognos_task_last_status_duration_in_seconds{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1553
+# HELP cp4d_cognos_task_last_status_start_epoch_time 
+# TYPE cp4d_cognos_task_last_status_start_epoch_time gauge
+cp4d_cognos_task_last_status_start_epoch_time{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1.64981716e+09
+# HELP cp4d_cognos_task_last_status_success 
+# TYPE cp4d_cognos_task_last_status_success gauge
+cp4d_cognos_task_last_status_success{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1
+```
+
+**Zen Watchdog metrics** (used in platform management events)
+- watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status
+  
+Zen Watchdog metrics can have the following values:
+- 2 (info)
+- 1 (warning)
+- 0 (critical)
+
+```
+# HELP watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status 
+# TYPE watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status gauge
+watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 2
+```
+
+
+
+
+
+
+

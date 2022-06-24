@@ -1,0 +1,44 @@
+---
+title: IBM Cloud Pak for Data Custom Monitors 
+---
+
+Custom monitors can be integrated directly in IBM Cloud Pak for Data 4.0 Platform Management events. 
+
+**List of available monitors**
+
+- [Platform Global Connections](/monitors/cp4d-platform-global-connections):
+  A monitor which counts the number of available Global Connections. For each connection a connection test is performed.
+
+- [Cognos Task Information](/monitors/cp4d-cognos-task-info):
+  A monitor which monitors cognos analytic task. 
+
+- [Cognos Connections Information](/monitors/cp4d-cognos-connections-info):
+  A monitor which counts the number of cognos analytic connections.
+
+- [Watson Studio Job Information](/monitors/cp4d-watsonstudio-job-info):
+  A monitor which monitors waston studio job. 
+
+- [Watson Studio Job Schedule Information](/monitors/cp4d-watsonstudio-job-schedule-info):
+  A monitor which monitors waston studio scheduled job. 
+
+- [Watson Studio Runtime Usage](/monitors/cp4d-watsonstudio-runtime-usage):
+  A monitor which monitors waston studio runtime. 
+
+- [Watson Knowledge Catalog Information](/monitors/cp4d-wkc-info):
+  A monitor which monitors watson knowledge catalog. 
+
+- [Watson Machine Learning Development Space Information](/monitors/cp4d-wml-deployment-space-info):
+  A monitor which monitors watson machine learning development space. 
+
+- [Watson Machine Learning Development Space Job Information](/monitors/cp4d-wml-deployment-space-job-info):
+  A monitor which monitors watson machine learning development space job. 
+
+These monitors are designed be deployed with the Cloud Pak Deployer automated deployment process. When monitors are deployed, the Cloud Pak Deployer will perform the following tasks:
+- Enable OpenShift monitoring
+- Configure a MonitorService for the zen-watchdog
+- Build the monitor image and push it into a container registry
+- Create a ConfigMap which contains the specification of the monitor
+
+The ConfigMap is consumed by the zen-watchdog which creates a cronjob. This cronjob will run the monitor using the defined schedule. 
+
+![Overview Monitors](dapper_monitor_content.drawio.png?raw=true "Overview Monitors")

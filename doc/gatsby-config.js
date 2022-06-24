@@ -4,7 +4,7 @@ module.exports = {
     description: 'A Gatsby theme for the carbon design system',
     keywords: 'monitor,deployer,cp4d',
   },
-  pathPrefix: `/IBM/cp4d-monitors`,
+  pathPrefix: `/cp4d-monitors`,
   plugins: [
     {
       resolve: 'gatsby-plugin-manifest',

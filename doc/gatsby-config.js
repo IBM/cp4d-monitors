@@ -4,7 +4,7 @@ module.exports = {
     description: 'A Gatsby theme for the carbon design system',
     keywords: 'monitor,deployer,cp4d',
   },
-  pathPrefix: `/CloudPakDeployer/cloud-pak-deployer-monitors`,
+  pathPrefix: `/IBM/cp4d-monitors`,
   plugins: [
     {
       resolve: 'gatsby-plugin-manifest',
@@ -22,7 +22,7 @@ module.exports = {
         mediumAccount: 'carbondesign',
         repository: {
           baseUrl:
-            'https://github.ibm.com/CloudPakDeployer/cloud-pak-deployer-monitors',
+            'https://github.com/IBM/cp4d-monitors',
           subDirectory: '',
           branch: 'main',
         },

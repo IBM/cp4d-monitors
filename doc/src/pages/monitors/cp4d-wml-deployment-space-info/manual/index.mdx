@@ -50,7 +50,7 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 export OPENSHIFT_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000/${CP4D_PROJECT}
 export GIT_SOURCE_TOKEN=<GIT_TOKEN>
 
-oc new-build https://iamapikey:${GIT_SOURCE_TOKEN}@github.ibm.com/CloudPakDeployer/cloud-pak-deployer-monitors \
+oc new-build https://iamapikey:${GIT_SOURCE_TOKEN}@github.com/IBM/cp4d-monitors \
  --context-dir cp4d-wml-deployment-space-info  \
  --name cp4d-platform-wml-deployment-space-info \
  --source-secret monitor-repo-auth \

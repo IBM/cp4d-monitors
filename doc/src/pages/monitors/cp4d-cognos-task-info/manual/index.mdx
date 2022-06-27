@@ -14,46 +14,15 @@ This manual deployment will be based on:
 
 ## Deploy Cognos Analytic Task Information
 
-### Create Source Repository authorization secret
-
-Create a secret to access the Git Source repository **only** when it does not exist in ${CP4D_PROJECT} namespace. 
-
-Please check if the secret exists in ${CP4D_PROJECT} namespace using the following command:
-```
-export CP4D_PROJECT=<CP4D_PROJECT>
-
-oc get secret -n ${CP4D_PROJECT}  |grep monitor-repo-auth |wc -l
-```
-
-If the result is `0`, please run the commands below to create Git Source repository authorization secret. If not, please skip the step, monitor will reuse the secret monitor-repo-auth.
-
-```
-export GIT_SOURCE_TOKEN=<GIT_TOKEN>
-export CP4D_PROJECT=<CP4D_PROJECT>
-
-cat << EOF | oc apply -f -
-apiVersion: v1
-stringData:
-  password: ${GIT_SOURCE_TOKEN}
-kind: Secret
-metadata:
-  name: monitor-repo-auth
-  namespace: ${CP4D_PROJECT}
-type: kubernetes.io/basic-auth
-EOF
-```
-
 ### Build the Monitor Image and push to the registry
 
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
 export OPENSHIFT_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000/${CP4D_PROJECT}
-export GIT_SOURCE_TOKEN=<GIT_TOKEN>
 
-oc new-build https://iamapikey:${GIT_SOURCE_TOKEN}@github.com/IBM/cp4d-monitors \
+oc new-build https://github.com/IBM/cp4d-monitors \
  --context-dir cp4d-cognos-task-info  \
  --name cp4d-platform-cognos-task-info \
- --source-secret monitor-repo-auth \
  --to ${OPENSHIFT_IMAGE_REGISTRY}/cp4d-platform-cognos-task-info:latest \
  --to-docker=true \
  --namespace ${CP4D_PROJECT}
@@ -209,7 +178,6 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 export CP4D_CRONJOB=cp4d-platform-cognos-task-info-cronjob
 oc delete bc -n ${CP4D_PROJECT} cp4d-platform-cognos-task-info
 oc delete cm -n ${CP4D_PROJECT} zen-alert-cp4d-platform-cognos-task-info-monitor-extension 
-oc delete secret -n ${CP4D_PROJECT} monitor-repo-auth 
 oc delete cronjob -n ${CP4D_PROJECT} ${CP4D_CRONJOB} 
 oc delete cm -n ${CP4D_PROJECT} cp4d-monitor-configuration
 ```

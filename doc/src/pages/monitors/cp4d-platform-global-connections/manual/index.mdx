@@ -208,19 +208,16 @@ drop table monitors;
 drop table monitor_events;
 drop table event_types;
 exit
+exit
 
 oc delete cronjob watchdog-alert-monitoring-cronjob watchdog-alert-monitoring-purge-cronjob zen-watchdog-cronjob diagnostics-cronjob
 oc delete pod -l component=zen-watchdog
 ```
 Wait for the cronjobs to be re-created
 
-Acquire the Password for influxdb
+Acquire the Password for influxdb, and copy it.
 ```
-oc get secret dsx-influxdb-auth -o yaml
-```
-Copy the base64 encoded "influxdb-password"
-```
-base64 -d <base64 encoded data>
+oc extract secret/dsx-influxdb-auth --keys=influxdb-password --to=-
 ```
 
 Delete the influxdb entries
@@ -230,7 +227,7 @@ influx -ssl -unsafeSsl
 auth
 <enter>admin
 
-Delete the events
+#Delete the events
 
 use WATCHDOG;
 drop measurement events;

@@ -213,6 +213,7 @@ drop table monitors;
 drop table monitor_events;
 drop table event_types;
 exit
+exit
 
 oc delete cronjob watchdog-alert-monitoring-cronjob watchdog-alert-monitoring-purge-cronjob zen-watchdog-cronjob diagnostics-cronjob
 oc delete pod -l component=zen-watchdog
@@ -231,7 +232,7 @@ influx -ssl -unsafeSsl
 auth
 <enter>admin
 
-Delete the events
+#Delete the events
 
 use WATCHDOG;
 drop measurement events;

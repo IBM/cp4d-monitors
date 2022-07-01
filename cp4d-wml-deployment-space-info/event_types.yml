@@ -17,7 +17,7 @@ event_types:
   - name: "cp4d_wml_deployment_space_deployed_fail_count"
     simple_name: "CP4D Watson Mechine Learning Deployment Space Deployed Fail Count"
     alert_type: "platform"
-    short_description: "CP4D Watson Mechine Learning Deployment Space Deployed Fail Count""
+    short_description: "CP4D Watson Mechine Learning Deployment Space Deployed Fail Count"
     long_description: "CP4D Watson Mechine Learning Deployment Space Deployed Fail Count: <cp4d_wml_deployment_space_deployed_fail_count>"
     resolution: "none"
     reason_code_prefix: "80"

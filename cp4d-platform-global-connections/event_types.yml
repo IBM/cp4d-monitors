@@ -1,0 +1,16 @@
+---
+event_types:
+  - name: "global_connections_count"
+    simple_name: "Number of CP4D Platform connections"
+    alert_type: "platform"
+    short_description: "Number of CP4D Platform connections"
+    long_description: "Number of CP4D Platform connections: <global_connections_count>"
+    resolution: "none"
+    reason_code_prefix: "80"
+  - name: "global_connection_valid"
+    simple_name: "Test CP4D Platform connection"
+    alert_type: "platform"
+    short_description: "Test CP4D Platform connection"
+    long_description: "Test result CP4D Platform connection: <global_connection_valid>"
+    resolution: "Validate the connection properties"
+    reason_code_prefix: "80"

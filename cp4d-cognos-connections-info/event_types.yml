@@ -1,0 +1,9 @@
+---
+event_types:
+  - name: "cp4d_cognos_connections_count"
+    simple_name: "Cognos Analytics Connections Information"
+    alert_type: "platform"
+    short_description: "CP4D Cognos Analytics Connection Information"
+    long_description: "CP4D Cognos Analytics Connection Information: <cp4d_cognos_connections_count>"
+    resolution: "none"
+    reason_code_prefix: "80"

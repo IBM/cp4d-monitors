@@ -1,0 +1,16 @@
+---
+event_types:
+  - name: "cp4d_wkc_info_catalog_overall_count"
+    simple_name: "Number of CP4D Platform Wastion Knowledge Catalog catalogs"
+    alert_type: "platform"
+    short_description: "Number of CP4D Platform Wastion Knowledge Catalog catalogs"
+    long_description: "Number of CP4D Platform Wastion Knowledge Catalog catalogs: <cp4d_wkc_info_catalog_overall_count>"
+    resolution: "none"
+    reason_code_prefix: "80"
+  - name: "cp4d_wkc_info_catalog_asset_count"
+    simple_name: "Number of CP4D Platform assets per Wastion Knowledge Catalog catalog"
+    alert_type: "platform"
+    short_description: "Number of CP4D Platform assets per Wastion Knowledge Catalog catalog"
+    long_description: "Number of CP4D Platform assets per Wastion Knowledge Catalog catalog: <cp4d_wkc_info_catalog_asset_count>"
+    resolution: "none"
+    reason_code_prefix: "80"

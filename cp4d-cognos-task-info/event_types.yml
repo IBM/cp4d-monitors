@@ -1,9 +1,9 @@
 ---
 event_types:
   - name: "cp4d_cognos_task_last_status"
-    simple_name: "Status of last CP4D Platform Cognos Analytic Task"
+    simple_name: "CP4D Cognos Analytics Task Last Status"
     alert_type: "platform"
-    short_description: "Status of last CP4D Platform Cognos Analytic Task"
-    long_description: "Status of last CP4D Platform Cognos Analytic Task: <cp4d_cognos_task_last_status_success>"
+    short_description: "CP4D Cognos Analytics Task Last Status"
+    long_description: "CP4D Cognos Analytics Task Last Status: <cp4d_cognos_task_last_status_success>"
     resolution: "none"
     reason_code_prefix: "80"

@@ -88,21 +88,21 @@ cp4d_monitors:
   default_monitor_target_cr_password_secret: monitors_target_cr_password
   # List of monitors
   monitors:
-  - name: cp4d-platform-watsonstudio-job-info
+  - name: cp4d-platform-cognos-task-info
     #monitor_source_repo:             
     #monitor_source_token_secret:    
     #monitor_target_cr:              
     #monitor_target_cr_user_secret:  
     #monitor_target_cr_user_password:
-    context: cp4d-watsonstudio-job-info
+    context: cp4d-cognos-task-info
     label: latest
     schedule: "*/15 * * * *"
     event_types:
     - name: "cp4d_cognos_task_last_status"
-      simple_name: "Status of last CP4D Platform Cognos Analytic Task"
+      simple_name: "CP4D Cognos Analytics Task Last Status"
       alert_type: "platform"
-      short_description: "Status of last CP4D Platform Cognos Analytic Task"
-      long_description: "Status of last CP4D Platform Cognos Analytic Task: <cp4d_cognos_task_last_status_success>"
+      short_description: "CP4D Cognos Analytics Task Last Status"
+      long_description: "CP4D Cognos Analytics Task Last Status: <cp4d_cognos_task_last_status_success>"
       resolution: "none"
       reason_code_prefix: "80"
 ```

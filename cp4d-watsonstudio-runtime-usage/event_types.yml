@@ -22,7 +22,7 @@ event_types:
     resolution: "none"
     reason_code_prefix: "80"
   - name: "cp4d_watsonstudio_runtime_usage_project_memory"
-    simple_name: "Watson Studio Runtime Usage Project Memory""
+    simple_name: "Watson Studio Runtime Usage Project Memory"
     alert_type: "platform"
     short_description: "CP4D Watson Studio Runtime Usage Project Memory"
     long_description: "CP4D Watson Studio Runtime Usage Project Memory: <cp4d_watsonstudio_runtime_usage_project_memory_limit>"

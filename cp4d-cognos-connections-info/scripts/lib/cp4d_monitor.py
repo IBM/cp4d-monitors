@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 from pathlib import Path
 import requests
 import json
@@ -120,7 +121,6 @@ cognos_analytic_db_password='cognos_analytic_db_password'
 cognos_analytic_db_host='cognos_analytic_db_host'
 cognos_analytic_db_name='cognos_analytic_db_name'
 cognos_analytic_db_port='cognos_analytic_db_port'
-cognos_analytic_db_provider='cognos_analytic_db_provider'
 
 if not k8s.is_exist_config_map(namespace,configmap_name):  
     k8s.create_configmap_cp4d_monitor_configuration(namespace)
@@ -263,7 +263,6 @@ def get_cp4d_deployments(headers, space_id):
     print_error(res)
     return deploymentsResult
 
-
 def get_admin_token():
     headers= {'Content-Type': 'application/json', 'Accept': 'application/json'}
     data = {"username":"admin","password": admin_pass}
@@ -287,22 +286,6 @@ def get_service_instances(instance_type):
             cognos_instances.append(instance)
     return cognos_instances
 
-def get_db_certification(cognos_analytic_db_information):
-    instace_id = get_db_instace_id(cognos_analytic_db_information)
-    bearer_token=get_admin_token()
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': str(bearer_token)}
-    service_instances_api_url=f'/icp4data/api/v1/databases/certificate/{namespace}/{instace_id}'
-    res=requests.get(cp4d_host+service_instances_api_url,verify=False, headers=headers)
-
-    if res.status_code!=200:
-        print('Error requesting db certification - status_code - ' + str(res.status_code))
-        try:
-            print(res.json())
-        except Exception:
-            print(res.text)
-        exit(1)
-    return json.loads(res.text)['result']['cert-tls']
-
 def get_all_services_instances():
     bearer_token=get_admin_token()
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': str(bearer_token)}
@@ -317,31 +300,47 @@ def get_all_services_instances():
         exit(1)
     return json.loads(res.text)
 
-
-def get_db_instace_id(cognos_analytic_db_information):
-    pre_jdbc = f'jdbc:{cognos_analytic_db_information[cognos_analytic_db_provider].lower()}://{cognos_analytic_db_information[cognos_analytic_db_host]}'
-
-    for instance in service_instaces['service_instances']:
-        if 'connection' in instance['metadata']:
-            if pre_jdbc in instance['metadata']['connection']:
-                return instance['metadata']['instance-id']
-    
-    print("Db instance which is used by Cognos Analytic is not found.")
-    exit(1) 
+service_instaces = get_all_services_instances()
 
 def get_cognos_analytics_instances():
     cognos_analytics_instances = get_service_instances('cognos-analytics-app')
     return cognos_analytics_instances
 
-def get_cognos_analytic_db_information(cognos_analytics_app):    
-    cognos_analytic_information=cognos_analytics_app['parameters']
-    cognos_analytic_db_information={}
-    cognos_analytic_db_information[cognos_analytic_db_username]=cognos_analytic_information['global.cs.databaseUser']
-    cognos_analytic_db_information[cognos_analytic_db_password]=cognos_analytic_information['global.cs.databasePass']
-    cognos_analytic_db_information[cognos_analytic_db_host]=cognos_analytic_information['global.cs.databaseHost']
-    cognos_analytic_db_information[cognos_analytic_db_name]=cognos_analytic_information['global.cs.databaseName']
-    cognos_analytic_db_information[cognos_analytic_db_port]=cognos_analytic_information['global.cs.databasePort']
-    cognos_analytic_db_information[cognos_analytic_db_provider]=cognos_analytic_information['global.cs.databaseProvider']
-    return cognos_analytic_db_information
+def get_cognos_analytic_instance_id(cognos_analytics_app):
+    return cognos_analytics_app['id']
 
-service_instaces = get_all_services_instances()
+def get_cognos_analytics_db_instace(instance_id):
+    for instance in service_instaces['service_instances']:
+        if 'instance-id' in instance['metadata'] and instance['metadata']['instance-id'] == instance_id:
+            return instance
+
+    print(f"Db instance - {instance_id} is not found.")
+    exit(1) 
+
+def get_cognos_analytic_db_information(cognos_analytics_app):
+    #find the cognos_analytic_db
+    label_selector = f'cognos_instance_id={get_cognos_analytic_instance_id(cognos_analytics_app)}'
+    cognos_analytic_db_sts = k8s.get_sts(namespace=namespace, label_selector=label_selector)    
+    keys = list(cognos_analytic_db_sts.keys())
+    if len(keys) < 1:
+       print("Db instance which is used by Cognos Analytic is not found.")
+       exit(1)  
+
+    #get cognos_analytic_db instance
+    cognos_analytic_db_sts_name = keys[0]
+    splits = cognos_analytic_db_sts_name.split("-")
+    cognos_analytic_db_instance_id = splits[1] + "-" + splits[2]
+    cognos_analytic_db_instance = get_cognos_analytics_db_instace(cognos_analytic_db_instance_id)
+
+    jdbc_url =  cognos_analytic_db_instance['metadata']['connection']
+    matchObj = re.match(r'jdbc:db2://(.*):(.*)/(.*)', jdbc_url) 
+    
+    cognos_analytic_db_information={}
+    cognos_analytic_db_information[cognos_analytic_db_username]=cognos_analytic_db_instance['metadata']['database-connection-status']['user']
+    cognos_analytic_db_information[cognos_analytic_db_host]=f'{matchObj.group(1)}'
+    cognos_analytic_db_information[cognos_analytic_db_name]=cognos_analytic_db_instance['metadata']['database-name']
+    cognos_analytic_db_information[cognos_analytic_db_port]=matchObj.group(2)
+    cognos_analytic_db_information[cognos_analytic_db_password]=k8s.get_db_secret(namespace=namespace, name=f"c-{cognos_analytic_db_instance_id}-instancepassword")
+
+    return cognos_analytic_db_information
+    

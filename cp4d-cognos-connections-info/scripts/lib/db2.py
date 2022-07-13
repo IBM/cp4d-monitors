@@ -2,13 +2,7 @@ import ibm_db
 from lib import k8s
 from lib import cp4d_monitor
 
-def save_certification(cognos_analytic_db_information): 
-    data = cp4d_monitor.get_db_certification(cognos_analytic_db_information)
-    with open('/tmp/db2-ssl.cert', 'w') as f:
-        f.write(data)
-
 def get_cp4d_cognos_connections_count(cognos_analytic_db_information):
-    save_certification(cognos_analytic_db_information)
     cp4d_cognos_connections_count_sql='''select count(*) as COUNT FROM CMOBJPROPS52 dconns
 inner join CMOBJNAMES objnm on
 dconns.CMID=objnm.CMID
@@ -27,8 +21,7 @@ on Datasources.CMID=dconns.CMID'''
         "DATABASE={3};"
         "UID={4};"
         "PWD={5};"
-        "SECURITY=ssl;"
-        "SSLSERVERCERTIFICATE=/tmp/db2-ssl.cert;").format(
+        ).format(
         cognos_analytic_db_information[cp4d_monitor.cognos_analytic_db_host], 
         cognos_analytic_db_information[cp4d_monitor.cognos_analytic_db_port], 
         "TCPIP",

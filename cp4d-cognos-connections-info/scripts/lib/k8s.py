@@ -65,23 +65,34 @@ def get_admin_secret(namespace):
     secret = core_api.read_namespaced_secret("admin-user-details", namespace).data
     return base64.b64decode(secret['initial_admin_password']).decode()
 
+def get_db_secret(namespace, name):
+    secret = core_api.read_namespaced_secret(name, namespace).data
+    return base64.b64decode(secret['password']).decode()
+
 def get_deployment(namespace,label_selector):
-  resources =app_api.list_namespaced_deployment(namespace=namespace,label_selector=label_selector)
-  deployments={}
-  for deployment in resources.items:
-    #print(pod['containers'], "\n")
-    deployments[deployment.metadata.name]=deployment
-  return deployments
-  
+    resources =app_api.list_namespaced_deployment(namespace=namespace,label_selector=label_selector)
+    deployments={}
+    for deployment in resources.items:
+        #print(pod['containers'], "\n")
+        deployments[deployment.metadata.name]=deployment
+    return deployments
+
+def get_sts(namespace,label_selector):
+    resources = app_api.list_namespaced_stateful_set(namespace=namespace,label_selector=label_selector)
+    sts={}
+    for item in resources.items:
+        #print(pod['containers'], "\n")
+        sts[item.metadata.name]=item
+    return sts
 
 def get_pod_usage(namespace,label_selector):
-  resources = custome_api.list_namespaced_custom_object(group="metrics.k8s.io",version="v1beta1",
-                                               namespace=namespace, plural="pods",label_selector=label_selector)
-  pods = []
-  for pod in resources["items"]:
-    #print(pod['containers'], "\n")
-    pods.append(pod)
-  return pods
+    resources = custome_api.list_namespaced_custom_object(group="metrics.k8s.io",version="v1beta1",
+                                                namespace=namespace, plural="pods",label_selector=label_selector)
+    pods = []
+    for pod in resources["items"]:
+        #print(pod['containers'], "\n")
+        pods.append(pod)
+    return pods
 
 def check_ccs_svc(namespace):
     error_msg = "Custom Resource Definition CCS is either not available or no instance available. CPDCTL capabilities are not available on this Cloud Pak for Data instance."

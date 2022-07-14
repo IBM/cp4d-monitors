@@ -36,6 +36,11 @@ def main():
       wml_deployment_space_deployed_fail_count=0
       wml_deployment_space_deployed_count_batch=0
       deployments = cp4d_monitor.get_deployments(space_id=space['metadata']['id'])
+
+      #fix error when no deployment
+      if len(deployments) == 0:
+        continue
+      
       for deployment in deployments['resources']:
           wml_deployment_space_info_overall_count+=1
           wml_deployment_space_deployed_count+=1
@@ -44,8 +49,7 @@ def main():
           if "batch" in deployment['entity']:
               wml_deployment_space_deployed_count_batch+=1
           if "online" in deployment['entity']:
-              wml_deployment_space_deployed_count_online+=1
-          
+              wml_deployment_space_deployed_count_online+=1          
     
       events.append(
         {

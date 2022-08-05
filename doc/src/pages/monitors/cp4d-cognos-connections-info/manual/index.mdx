@@ -41,6 +41,19 @@ oc logs -n ${CP4D_PROJECT} build/cp4d-platform-cognos-connections-info-1 -f
 ```
 Ensure the build finishes with the message `Push successful`
 
+
+### Add label for Db2 instance
+
+IBM Cognos Analytics supports Db2 data sources. If the Db2 instance is connected to Cognos Analytics as a data source. We need to add the label for the Db2 instance StatefulSet.
+```
+export DB2_INSTANCE_ID=<DB2_INSTANCE_ID>
+export COGNOS_INSTANCE_ID=<COGNOS_INSTANCE_ID>
+
+oc label sts c-db2oltp-${DB2_INSTANCE_ID}-db2u cognos_instance_id=${COGNOS_INSTANCE_ID}
+
+```
+**Note:** We could use the API https://&lt;CP4D-BASE-URL&gt;/zen-data/v3/service_instances to query the Db2 instance id and cognos instance id. 
+
 ### Create the Cloud Pak for Data zen-watchdog monitor configuration
 
 ```

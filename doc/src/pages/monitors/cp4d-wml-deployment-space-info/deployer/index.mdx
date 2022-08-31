@@ -4,21 +4,25 @@ title: Deployment of Watson Machine Learning Development Space Information using
 
 ## Configure authentication secrets in the vault used by the Cloud Pak Deployer
 
-Before deploying the monitor, ensure the secrets used in the deployment are available in the vault used by the Cloud Pak Deployer.
-- Source repository token (**Mandatory**)  
-  Source token used to build and monitor image
-- Target Container Registry username and password (**Optional**)  
-  By default the image will be pushed to the internal image-registry of OpenShift, which do not require credentials. If the image is pushed to an external image registry, the required credentials must be available. 
+By default the CP4D monitors codes are pulled from this public Github repository and the CP4D monitors images are pushed into the internal image registry of OpenShift. For this setup no credentials are required to either build the monitor images or push them into the internal OpenShift registry.
 
-Example to configure the secrets in the vaults used by the Cloud Pak Deployer
+Optionally, if the Monitor Github repo is cloned into a private Github registry which does require authentication, a vault secret must be created which is used to authenticate to the private Github repo. For example:
 
 ```
 export STATUS_DIR=<Status directory of the Cloud Pak Deployer>
 export CONFIG_DIR=<Configuration folder used by the Cloud Pak Deployer>
 
-# Mandatory Source Repo secret
+# Monitor Source Repo secret
 ./cp-deploy.sh vault set --vault-secret monitors_source_repo_secret --vault-secret-value ThisIsMyGitAccessToken!
-# Optional Target Image Registry Credentials
+```
+
+Optionally, if the build monitor image should be pushed to an external image registry which does require authentication (so not use the internal OpenShift image registry), a vault secret must be created which is used to authenticate to the external image registry. For example:
+
+```
+export STATUS_DIR=<Status directory of the Cloud Pak Deployer>
+export CONFIG_DIR=<Configuration folder used by the Cloud Pak Deployer>
+
+# External Image Registry Credentials
 ./cp-deploy.sh vault set --vault-secret default_monitor_target_cr_user_secret --vault-secret-value TargetCRUserName
 ./cp-deploy.sh vault set --vault-secret monitors_target_cr_password --vault-secret-value TargetCRPassword
 ```

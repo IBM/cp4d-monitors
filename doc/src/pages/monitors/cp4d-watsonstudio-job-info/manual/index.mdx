@@ -46,6 +46,7 @@ Ensure the build finishes with the message `Push successful`
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
 export OPENSHIFT_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000/${CP4D_PROJECT}
+export ICPDATA_ADDON_VERSION=$(oc get po -l component=zen-watcher -o jsonpath='{.items[0].metadata.annotations.productVersion}')
 
 cat << EOF | oc apply -f -
 kind: ConfigMap
@@ -56,7 +57,7 @@ metadata:
   labels:
     app: zen-adv
     icpdata_addon: 'true'
-    icpdata_addon_version: 4.3.0
+    icpdata_addon_version: ${ICPDATA_ADDON_VERSION}
     release: zen-adv
 data:
   extensions: |

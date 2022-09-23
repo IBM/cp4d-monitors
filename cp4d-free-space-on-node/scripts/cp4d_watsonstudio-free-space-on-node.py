@@ -2,6 +2,7 @@ import os
 import requests
 import json
 from lib import cp4d_monitor
+from lib import k8s
 from kubernetes import client, config, watch
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 

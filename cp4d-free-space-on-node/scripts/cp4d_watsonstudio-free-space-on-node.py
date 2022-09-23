@@ -19,6 +19,26 @@ def convert_memory_unit(memory):
        return  int(memory[0:-2])/1024
     return memory
 
+# calculate cpu value
+def get_cpu(ccpu):
+    l=len(ccpu)
+    if (ccpu[l-1:l] == 'm'):
+        return int(ccpu[0:l-1])
+    else:
+        return int(ccpu)*1000
+
+# calculate memory value
+def get_mem(mmem):
+    l=len(mmem)
+    if (mmem[l-2:l] == "Mi"):
+            return (int(mmem[0:l-2]))*1024
+    elif (mmem[l-2:l] == "Gi"):
+            return (int(mmem[0:l-2]))*1024*1024
+    elif (mmem[l-2:l] == "Ki"):
+            return (int(mmem[0:l-2]))
+    else:
+        return 0
+
 def main():  
     #surpress warning on insecure SSL certificate
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)

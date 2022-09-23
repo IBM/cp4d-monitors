@@ -123,6 +123,7 @@ def get_project_list():
     last_fetch_timestamp = float(cacheconfig[project_last_refresh_key])
     if need_to_fetch(project_fetch_interval,last_fetch_timestamp)==True or not os.path.exists(projects_cache_file):
         project_data = cpdctl.cpdctl_get_projects()
+        print("Projects:", project_data)
         if project_data['total_results'] > 0:
             projects=project_data['resources']
 
@@ -131,6 +132,8 @@ def get_project_list():
         cacheconfig[project_last_refresh_key]=str(get_current_timestamp())
         k8s.set_config_map(namespace=namespace,name=configmap_name,data=cacheconfig)
         return projects
+    else:
+        print("cache config prevents refresh!")
     
     with open(projects_cache_file, 'r') as f:
         projects = json.loads(f.read())

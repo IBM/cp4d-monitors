@@ -1,0 +1,16 @@
+---
+event_types:
+  - name: "cp4d_watsonstudio_max_cpu_space"
+    simple_name: "Watson Stuido maximum cpu space for a runtime"
+    alert_type: "platform"
+    short_description: "Watson Stuido maximum cpu space for a runtime"
+    long_description: "Watson Stuido maximum cpu space for a runtime: <cp4d_watsonstudio_max_cpu_space>"
+    resolution: "none"
+    reason_code_prefix: "80"
+  - name: "cp4d_watsonstudio_max_mem_space"
+    simple_name: "Watson Stuido maximum memory space for a runtime"
+    alert_type: "platform"
+    short_description: "Watson Stuido maximum memory space for a runtime"
+    long_description: "Watson Stuido maximum memory space for a runtime: <cp4d_watsonstudio_max_mem_space>"
+    resolution: "none"
+    reason_code_prefix: "80"

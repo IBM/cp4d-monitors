@@ -90,6 +90,7 @@ def get_current_timestamp():
     return datetime.datetime.now().timestamp()
  
 def need_to_fetch(fetch_interval,fetch_timestamp):
+   return(True)
    return get_current_timestamp()-(fetch_interval*60+fetch_timestamp)>0
 
 configmap_name='cp4d-monitor-configuration'

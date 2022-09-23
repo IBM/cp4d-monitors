@@ -57,16 +57,10 @@ def main():
     
     #Array containing the monitor events
     events = []
-    
-    #   load k8s config
-    config.load_kube_config()
-
-#   load client
-    v1 = client.CoreV1Api()
     node_list={}
 
 #   sum over all running pods
-    ret = v1.list_pod_for_all_namespaces(watch=False)
+    ret = k8s.get_all_pods()
     for item in ret.items:
 
 #       skip pods already done        

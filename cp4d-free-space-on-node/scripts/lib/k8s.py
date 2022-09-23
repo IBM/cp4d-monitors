@@ -99,3 +99,6 @@ def check_ccs_svc(namespace):
         if result == False:
             print(error_msg)
             exit(1)
+
+def get_all_pods():
+    return core_api.list_pod_for_all_namespaces(watch=False)

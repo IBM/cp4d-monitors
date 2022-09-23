@@ -47,6 +47,7 @@ def main():
     
     #get project ids
     projects = cp4d_monitor.get_project_list()
+    print(projects)
     total_runtime=0
     events=[]
     for project in projects:

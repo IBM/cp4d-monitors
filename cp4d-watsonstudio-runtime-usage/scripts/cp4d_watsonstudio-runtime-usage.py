@@ -63,13 +63,15 @@ def main():
       pods = cp4d_monitor.get_pod_usage(label_selector=labels)
 
       app_labels='dsxProjectId={}'.format(project['metadata']['guid'])      
-      deployments = cp4d_monitor.get_deployment(label_selector=app_labels)  
+      deployments = cp4d_monitor.get_deployment(label_selector=app_labels) 
+      print("\nDeployments:\n", deployments)
 
       if len(pods)>0:
          total_runtime+=1
          for pod in pods:
 
            project_total_runtime=+1
+           print("\nPods:\n",pod)
            key_deployment=pod['metadata']['name'][0:-14]
            deployment_resources =deployments[key_deployment].spec.template.spec.containers[0].resources           
            pod_cpu_usage=convert_cpu_unit(pod['containers'][1]['usage']['cpu'])          

@@ -11,13 +11,14 @@ def convert_cpu_unit(cpu):
   return int(cpu[0:-1])
 
 def convert_memory_unit(memory):
+    print ("Converting: {}".format(memory))
     if "Ki" in memory:
        return int(memory[0:-2])/1024/1024
     if "Gi" in memory:
        return int(memory[0:-2])
     if "Mi" in memory:
-       return  int(memory[0:-2])/1024
-    return memory
+       return int(memory[0:-2])/1024
+    return int(memory)
 
 def main():  
     #surpress warning on insecure SSL certificate
@@ -70,13 +71,13 @@ def main():
 
            project_total_runtime=+1
            key_deployment=pod['metadata']['name'][0:-14]
-           deployment_resources =deployments[key_deployment].spec.template.spec.containers[0].resources           
+           deployment_resources=deployments[key_deployment].spec.template.spec.containers[0].resources           
            pod_cpu_usage=convert_cpu_unit(pod['containers'][1]['usage']['cpu'])          
-           pod_cpu_limits= convert_cpu_unit(deployment_resources.limits['cpu'])
+           pod_cpu_limits=convert_cpu_unit(deployment_resources.limits['cpu'])
            pod_cpu_requests=convert_cpu_unit(deployment_resources.requests['cpu'])           
            pod_memory_limits=convert_memory_unit(deployment_resources.limits['memory'])          
-           pod_memory_requests = convert_memory_unit(deployment_resources.requests['memory'])           
-           pod_memory_usage =convert_memory_unit(pod['containers'][1]['usage']['memory'])
+           pod_memory_requests=convert_memory_unit(deployment_resources.requests['memory'])           
+           pod_memory_usage=convert_memory_unit(pod['containers'][1]['usage']['memory'])
 
            project_total_cpu_limits+=pod_cpu_limits
            project_total_memory_limits+=pod_memory_limits

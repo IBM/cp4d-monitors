@@ -92,15 +92,29 @@ def main():
               #need to discuss and modify
               if job_info is not None and 'schedule_info' in job_info['entity']['job']:
                 print(job_info)
-                nextrun_in_epoch_time=cp4d_monitor.calculate_next_schedule_run(job_info['entity']['job']['schedule_info']['startOn'], job_info['entity']['job']['schedule'])
-                if ('endOn' not in job_info['entity']['job']['schedule_info']) or ('endOn' in job_info['entity']['job']['schedule_info'] and nextrun_in_epoch_time*1000<=job_info['entity']['job']['schedule_info']['endOn']): 
-                    events.append({
-                        "monitor_type":monitor_type, 
-                        "event_type":event_type_watsonstudio_job_schedule_next_run_epoch_time, 
-                        "metadata": metadata_watsonstudio_jobs_schedule_next_run_epoch_time.format
-                        (nextrun_in_epoch_time), 
-                        "severity": "info", 
-                        "reference": project['entity']['name']+'_'+job['metadata']['name']})
+                if 'startOn' in job_info['entity']['job']['schedule_info']:
+                    nextrun_in_epoch_time=cp4d_monitor.calculate_next_schedule_run(job_info['entity']['job']['schedule_info']['startOn'], job_info['entity']['job']['schedule'])
+                    if ('endOn' not in job_info['entity']['job']['schedule_info']) or ('endOn' in job_info['entity']['job']['schedule_info'] and nextrun_in_epoch_time*1000<=job_info['entity']['job']['schedule_info']['endOn']): 
+                        events.append({
+                            "monitor_type":monitor_type, 
+                            "event_type":event_type_watsonstudio_job_schedule_next_run_epoch_time, 
+                            "metadata": metadata_watsonstudio_jobs_schedule_next_run_epoch_time.format
+                            (nextrun_in_epoch_time), 
+                            "severity": "info", 
+                            "reference": project['entity']['name']+'_'+job['metadata']['name']})
+                elif 'future_scheduled_runs' in job_info['entity']['job']:
+                    future_scheduled_runs=len(job_info['entity']['job']['future_scheduled_runs'])
+                    print("Found {} future_scheduled_runs".format(future_scheduled_runs))
+                    if future_scheduled_runs > 0:
+                        next_future_scheduled_run=job_info['entity']['job']['future_scheduled_runs'][0]
+                        nextrun_in_epoch_time=calculate_next_schedule_run_in_epoch(next_future_scheduled_run)
+                        events.append({
+                            "monitor_type":monitor_type, 
+                            "event_type":event_type_watsonstudio_job_schedule_next_run_epoch_time, 
+                            "metadata": metadata_watsonstudio_jobs_schedule_next_run_epoch_time.format
+                            (nextrun_in_epoch_time), 
+                            "severity": "info", 
+                            "reference": project['entity']['name']+'_'+job['metadata']['name']})                        
 
               runs=cp4d_monitor.get_job_run_info(project_id=project_id,job_id=job['metadata']['asset_id'])
               if len(runs)>0: 

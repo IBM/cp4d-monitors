@@ -91,7 +91,6 @@ def main():
 
               #need to discuss and modify
               if job_info is not None and 'schedule_info' in job_info['entity']['job']:
-                print(job_info)
                 if 'startOn' in job_info['entity']['job']['schedule_info']:
                     nextrun_in_epoch_time=cp4d_monitor.calculate_next_schedule_run(job_info['entity']['job']['schedule_info']['startOn'], job_info['entity']['job']['schedule'])
                     if ('endOn' not in job_info['entity']['job']['schedule_info']) or ('endOn' in job_info['entity']['job']['schedule_info'] and nextrun_in_epoch_time*1000<=job_info['entity']['job']['schedule_info']['endOn']): 

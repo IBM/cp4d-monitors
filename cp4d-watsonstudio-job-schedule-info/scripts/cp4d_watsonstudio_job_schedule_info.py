@@ -107,7 +107,7 @@ def main():
                     print("Found {} future_scheduled_runs".format(future_scheduled_runs))
                     if future_scheduled_runs > 0:
                         next_future_scheduled_run=job_info['entity']['job']['future_scheduled_runs'][0]
-                        nextrun_in_epoch_time=calculate_next_schedule_run_in_epoch(next_future_scheduled_run)
+                        nextrun_in_epoch_time=cp4d_monitor.calculate_next_schedule_run_in_epoch(next_future_scheduled_run)
                         events.append({
                             "monitor_type":monitor_type, 
                             "event_type":event_type_watsonstudio_job_schedule_next_run_epoch_time, 

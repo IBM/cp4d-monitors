@@ -236,7 +236,7 @@ def get_admin_token():
 
 def calculate_next_schedule_run_in_epoch(next_schedule):
     dateformat='%Y-%m-%dT%H:%M:%S.%fZ'
-    next_scheduled_date=datetime.strptime(next_schedule,dateformat)
+    next_scheduled_date=datetime.datetime.strptime(next_schedule,dateformat)
     nextdate_in_epoch_time = calendar.timegm(next_scheduled_date.timetuple)
     return nextdate_in_epoch_time
 

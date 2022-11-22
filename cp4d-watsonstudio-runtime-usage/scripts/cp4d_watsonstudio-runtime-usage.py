@@ -11,7 +11,6 @@ def convert_cpu_unit(cpu):
   return int(cpu[0:-1])
 
 def convert_memory_unit(memory):
-    print ("Converting: {}".format(memory))
     if "Ki" in memory:
        return int(memory[0:-2])/1024/1024
     if "Gi" in memory:

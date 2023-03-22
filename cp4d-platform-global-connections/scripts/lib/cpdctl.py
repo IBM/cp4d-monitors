@@ -12,7 +12,7 @@ def is_json(json_string):
     return True
 
 #
-def cmd_execte(command, parameters="", output_format="json"):
+def cmd_execute(command, parameters="", output_format="json"):
     cmd_exist = os.popen(f'which {command}')
     output_cmd_exist = cmd_exist.read()
     if output_cmd_exist == "":
@@ -49,27 +49,27 @@ def cmd_execte(command, parameters="", output_format="json"):
             return str_stdout
 
 def cpdctl_init_config_context(username, password, url, context_name="default"):
-    result = cmd_execte(command='cpdctl', parameters=f'config context set {context_name} --username={username} --password={password} --url {url}')
+    result = cmd_execute(command='cpdctl', parameters=f'config profile set {context_name} --username={username} --password={password} --url {url}')
     if 'status' in result and result['status'] == 'error':
         print("Got error to create cpd context.")
         exit(1)
 
 def cpdctl_get_projects(context_name="default"):  
-    projects = cmd_execte(command='cpdctl', parameters=f'project list --context {context_name}')
+    projects = cmd_execute(command='cpdctl', parameters=f'project list --context {context_name}')
     if 'status' in projects and projects['status'] == 'error':
         print("Got error to get all projects.")
         return []
     return projects
 
 def cpdctl_get_jobs(project_id, context_name="default"):
-    jobs = cmd_execte(command='cpdctl', parameters=f'job list --project-id {project_id} --context {context_name}')
+    jobs = cmd_execute(command='cpdctl', parameters=f'job list --project-id {project_id} --context {context_name}')
     if 'status' in jobs and jobs['status'] == 'error':
         print(f'Got error to get job for the project {project_id}')
         return []
     return jobs
 
 def cpdctl_get_job(project_id, job_id, context_name="default"):
-    job = cmd_execte(command='cpdctl', parameters=f'job get --project-id {project_id} --job-id {job_id} --context {context_name}')
+    job = cmd_execute(command='cpdctl', parameters=f'job get --project-id {project_id} --job-id {job_id} --context {context_name}')
     if 'status' in job and job['status'] == 'error':
         print(f'Got error to get job for the job {job_id} in the project {project_id}')
         return None

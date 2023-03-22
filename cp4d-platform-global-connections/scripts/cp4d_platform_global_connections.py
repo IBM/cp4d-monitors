@@ -12,7 +12,9 @@ def main():
 
     #definition of monitor_type
     # Note: should only contain a-z, 0-9 and _ characters
-    monitor_type = cp4d_monitor.create_and_validate_type ("cp4d_platform_global_connections")    
+    #monitor_type = cp4d_monitor.create_and_validate_type ("cp4d_platform_global_connections")
+    monitor_type = "cp4d-platform-global-connections"
+
     #Definition of event_types
     # Note: should only contain a-z, 0-9 and _ characters
     event_type_number_of_connections = cp4d_monitor.create_and_validate_type ("global_connections_count")

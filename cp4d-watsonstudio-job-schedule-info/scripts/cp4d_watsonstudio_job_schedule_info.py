@@ -5,7 +5,7 @@ import time
 
 def main():
     
-    monitor_type = cp4d_monitor.create_and_validate_type("cp4d_watsonstudio_job_schedule_info")
+    monitor_type="cp4d-watsonstudio-job-schedule-info"
 
     event_type_watsonstudio_jobs_schedule_overall_count=cp4d_monitor.create_and_validate_type("cp4d_watsonstudio_jobs_schedule_overall_count")    
     event_type_watsonstudio_jobs_schedule_project_count=cp4d_monitor.create_and_validate_type("cp4d_watsonstudio_jobs_schedule_project_count")    

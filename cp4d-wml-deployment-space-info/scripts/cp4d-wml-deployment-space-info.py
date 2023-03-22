@@ -9,8 +9,7 @@ def main():
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
     #definition of monitor_type
-    # Note: should only contain a-z, 0-9 and _ characters
-    monitor_type = cp4d_monitor.create_and_validate_type ("cp4d_wml_deployment_space_info")
+    monitor_type="cp4d-wml-deployment-space-info"
     
     #Definition of event_types
     # Note: should only contain a-z, 0-9 and _ characters

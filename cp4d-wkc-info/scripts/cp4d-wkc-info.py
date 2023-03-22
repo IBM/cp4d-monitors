@@ -19,7 +19,7 @@ def convert_last_job_result(status):
         
 
 def main(): 
-    monitor_type = cp4d_monitor.create_and_validate_type("cp4d-wkc-info")
+    monitor_type="cp4d-wkc-info"
 
     event_type_wkc_info_catalog_overall_count=cp4d_monitor.create_and_validate_type("cp4d_wkc_info_catalog_overall_count") 
     event_type_wkc_info_catalog_asset_count=cp4d_monitor.create_and_validate_type("cp4d_wkc_info_catalog_asset_count") 

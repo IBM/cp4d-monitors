@@ -47,7 +47,7 @@ def cmd_execute(command, parameters="", output_format="json"):
             return str_stdout
 
 def cpdctl_init_config_context(username, password, url, context_name="default"):
-    result = cmd_execute(command='cpdctl', parameters=f'config context set {context_name} --username={username} --password={password} --url {url}')
+    result = cmd_execute(command='cpdctl', parameters=f'config profile set {context_name} --username={username} --password={password} --url {url}')
     if 'status' in result and result['status'] == 'error':
         print("Got error to create cpd context.")
         exit(1)

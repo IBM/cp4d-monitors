@@ -69,11 +69,9 @@ def main():
          for pod in pods:
 
            project_total_runtime=+1
-           #key_deployment=pod['metadata']['name'][0:-14]
-           
            key_deployment_full=pod['metadata']['name']
            key_deployment=key_deployment_full.rsplit("-",1)[0]
-           print ("Using key_deployment: {}".format(key_deployment))
+           print ("Using Runtime key_deployment: {}".format(key_deployment))
 
            deployment_resources=deployments[key_deployment].spec.template.spec.containers[0].resources           
            pod_cpu_usage=convert_cpu_unit(pod['containers'][1]['usage']['cpu'])          
@@ -90,8 +88,6 @@ def main():
            project_total_memory_usage+=pod_memory_usage
            project_total_cpu_usage+=project_total_cpu_usage
           
-           #key_deployment=pod['metadata']['name'][0:-14]
-           #deployment_resources=deployments[key_deployment].spec.template.spec.containers[0].resources
            events.append({"monitor_type":monitor_type, 
                           "event_type":event_type_watsonstudio_runtime_usage_cpu, 
                           "metadata": metadata_watsonstudio_runtime_usage_cpu.format(pod_cpu_limits,pod_cpu_requests,pod_cpu_usage), 

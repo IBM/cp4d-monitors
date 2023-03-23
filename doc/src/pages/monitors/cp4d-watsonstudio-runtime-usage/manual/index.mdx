@@ -170,13 +170,13 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 oc get cronjob -n ${CP4D_PROJECT}
 
 NAME                                               SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
-cp4d-platform-watsonstudio-runtime-usage-cronjob   */15 * * * *   False     0        <none>          63s
+cp4dplatformwatsonstudioruntimeusage-cronjob   */15 * * * *   False     0        <none>          63s
 ```
 
 Most monitors require access to the Cloud Pak for Data /user-home folder to cache information. To test whether this mount point is already present on the monitor use the following command:
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
-export CP4D_CRONJOB=cp4d-platform-watsonstudio-runtime-usage-cronjob
+export CP4D_CRONJOB=cp4dplatformwatsonstudioruntimeusage-cronjob
 oc set volume -n ${CP4D_PROJECT} cronjobs/${CP4D_CRONJOB} | grep "mounted at /user-home" | wc -l
 ```
 If the result is `0`, patch the cronjob using the following command:

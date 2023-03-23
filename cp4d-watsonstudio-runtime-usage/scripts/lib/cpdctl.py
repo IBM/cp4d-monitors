@@ -53,21 +53,21 @@ def cpdctl_init_config_context(username, password, url, context_name="default"):
         exit(1)
 
 def cpdctl_get_projects(context_name="default"):  
-    projects = cmd_execute(command='cpdctl', parameters=f'project list --context {context_name}')
+    projects = cmd_execute(command='cpdctl', parameters=f'project list --profile {context_name}')
     if 'status' in projects and projects['status'] == 'error':
         print("Got error to list all projects.")
         return []
     return projects
 
 def cpdctl_get_jobs(project_id, context_name="default"):
-    jobs = cmd_execute(command='cpdctl', parameters=f'job list --project-id {project_id} --context {context_name}')
+    jobs = cmd_execute(command='cpdctl', parameters=f'job list --project-id {project_id} --profile {context_name}')
     if 'status' in jobs and jobs['status'] == 'error':
         print(f'Got error to get job for the project {project_id}.')
         return []
     return jobs
 
 def cpdctl_get_job(project_id, job_id, context_name="default"):
-    job = cmd_execute(command='cpdctl', parameters=f'job get --project-id {project_id} --job-id {job_id} --context {context_name}')
+    job = cmd_execute(command='cpdctl', parameters=f'job get --project-id {project_id} --job-id {job_id} --profile {context_name}')
     if 'status' in job and job['status'] == 'error':
         print(f'Got error to get job for the job {job_id} in the project {project_id}.')
         return None

@@ -139,13 +139,13 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 oc get cronjob -n ${CP4D_PROJECT}
 
 NAME                                                   SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
-cp4d-platform-cognos-connections-info-cronjob          */15 * * * *   False     0        <none>          10s
+cp4dplatformcognosconnectionsinfo-cronjob          */15 * * * *   False     0        <none>          10s
 ```
 
 Most monitors require access to the Cloud Pak for Data /user-home folder to cache information. To test whether this mount point is already present on the monitor use the following command:
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
-export CP4D_CRONJOB=cp4d-platform-cognos-connections-info-cronjob
+export CP4D_CRONJOB=cp4dplatformcognosconnectionsinfo-cronjob
 oc set volume -n ${CP4D_PROJECT} cronjobs/${CP4D_CRONJOB} | grep "mounted at /user-home" | wc -l
 ```
 If the result is `0`, patch the cronjob using the following command:
@@ -168,7 +168,7 @@ When changes are applied to the monitor, restarting the Build Config will re-bui
 
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
-export CP4D_CRONJOB=cp4d-platform-cognos-connections-info-cronjob
+export CP4D_CRONJOB=cp4dplatformcognosconnectionsinfo-cronjob
 
 oc start-build -n ${CP4D_PROJECT} cp4d-platform-cognos-connections-info
 ```
@@ -189,7 +189,7 @@ oc patch cronjob -n ${CP4D_PROJECT} ${CP4D_CRONJOB} \
 Use the following commands to delete the monitor
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
-export CP4D_CRONJOB=cp4d-platform-cognos-connections-info-cronjob
+export CP4D_CRONJOB=cp4dplatformcognosconnectionsinfo-cronjob
 oc delete bc -n ${CP4D_PROJECT} cp4d-platform-cognos-connections-info
 oc delete cm -n ${CP4D_PROJECT} zen-alert-cp4d-platform-cognos-connections-info-monitor-extension 
 oc delete cronjob -n ${CP4D_PROJECT} ${CP4D_CRONJOB} 
@@ -216,11 +216,13 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 oc project ${CP4D_PROJECT}
 
 oc exec -it zen-metastoredb-0 /bin/bash
-cp -r /certs/ /tmp/
-cd /tmp/ && chmod -R 0700 certs/
-cd /cockroach 
+
+cp -Lr /certs/* /tmp/
+cd /tmp && chmod 0600 ./certs/*
+cd  /cockroach
 ./cockroach sql --certs-dir=/tmp/certs/ --host=zen-metastoredb-0.zen-metastoredb
 use zen;
+
 drop table policies;
 drop table products;
 drop table monitors;

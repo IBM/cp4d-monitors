@@ -8,6 +8,8 @@ By default the CP4D monitors codes are pulled from this public Github repository
 
 Optionally, if the Monitor Github repo is cloned into a private Github registry which does require authentication, a vault secret must be created which is used to authenticate to the private Github repo. For example:
 
+More information can be found here: [IBM Cloud Pak Deployer - Monitoring](https://ibm.github.io/cloud-pak-deployer/30-reference/configuration/monitoring/)
+
 ```
 export STATUS_DIR=<Status directory of the Cloud Pak Deployer>
 export CONFIG_DIR=<Configuration folder used by the Cloud Pak Deployer>
@@ -85,86 +87,17 @@ cp4d_monitors:
   cp4d_instance: <OC_PROJECT>
   openshift_cluster_name: <OC_CLUSTER_NAME>
   default_monitor_source_repo: https://github.com/IBM/cp4d-monitors
-  default_monitor_source_token_secret: monitors_source_repo_secret
+  #default_monitor_source_token_secret: monitors_source_repo_secret
   #Optional target Container Registry
-  default_monitor_target_cr: de.icr.io/monitorrepo  
-  default_monitor_target_cr_user_secret: monitors_target_cr_username
-  default_monitor_target_cr_password_secret: monitors_target_cr_password
+  #default_monitor_target_cr: de.icr.io/monitorrepo  
+  #default_monitor_target_cr_user_secret: monitors_target_cr_username
+  #default_monitor_target_cr_password_secret: monitors_target_cr_password
   # List of monitors
   monitors:
-  - name: cp4d-platform-watsonstudio-schedule-job-info
-    #monitor_source_repo:             
-    #monitor_source_token_secret:    
-    #monitor_target_cr:              
-    #monitor_target_cr_user_secret:  
-    #monitor_target_cr_user_password:
+  - name: cp4dplatformwatsonstudiojobscheduleinfo
     context: cp4d-watsonstudio-job-info
     label: latest
     schedule: "*/15 * * * *"
-    event_types:
-    - name: "cp4d_watsonstudio_jobs_schedule_overall_count"
-      simple_name: "Watson Studio Jobs Schedule Overall Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Jobs Schedule Overall Count"
-      long_description: "CP4D Watson Studio Jobs Schedule Overall Count: <cp4d_watsonstudio_jobs_schedule_overall_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_jobs_schedule_project_count"
-      simple_name: "Watson Studio Jobs Schedule Project Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Jobs Schedule Project Count"
-      long_description: "CP4D Watson Studio Jobs Schedule Project Count: <cp4d_watsonstudio_jobs_schedule_project_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_jobs_schedule_user_overall_count"
-      simple_name: "Watson Studio Jobs Schedule User Overall Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Jobs Schedule User Overall Count"
-      long_description: "CP4D Watson Studio Jobs Schedule User Overall Count: <cp4d_watsonstudio_jobs_schedule_user_overall_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_jobs_schedule_user_notebook_count"
-      simple_name: "Watson Studio Jobs Schedule User Notebook Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Jobs Schedule User Notebook Count"
-      long_description: "CP4D Watson Studio Jobs Schedule User Notebook Count: <cp4d_watsonstudio_jobs_schedule_user_notebook_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_jobs_schedule_user_datastage_count"
-      simple_name: "Watson Studio Jobs Schedule User Datastage Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Jobs Schedule User Datastage Count"
-      long_description: "CP4D Watson Studio Jobs Schedule User Datastage Count: <cp4d_watsonstudio_jobs_schedule_user_datastage_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_job_schedule_last_run_fail"
-      simple_name: "Watson Studio Job Scheudle Last Run Fail"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Job Scheudle Last Run Fail"
-      long_description: "CP4D Watson Studio Job Scheudle Last Run Fail: <cp4d_watsonstudio_job_schedule_last_run_fail>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_job_schedule_next_run_epoch_time"
-      simple_name: "Watson Studio Job Schedule Next Run Epoch Time"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Job Schedule Next Run Epoch Time"
-      long_description: "CP4D Watson Studio Job Schedule Next Run Epoch Time: <cp4d_watsonstudio_jobs_schedule_next_run_epoch_time>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_job_schedule_last_run_duration_seconds"
-      simple_name: "Watson Studio Job Schedule Last Run Duration Seconds"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Job Schedule Last Run Duration Seconds"
-      long_description: "CP4D Watson Studio Job Schedule Last Run Duration Seconds: <cp4d_watsonstudio_job_schedule_last_run_duration_seconds>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_job_schedule_last_run_epoch_time"
-      simple_name: "Watson Studio Job Schedule Last Run Epoch Time"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Job Schedule Last Run Epoch Time"
-      long_description: "CP4D Watson Studio Job Schedule Last Run Epoch Time: <cp4d_watsonstudio_job_schedule_last_run_epoch_time>"
-      resolution: "none"
-      reason_code_prefix: "80"
 ```
 
 ## Run the Cloud Pak Deployer

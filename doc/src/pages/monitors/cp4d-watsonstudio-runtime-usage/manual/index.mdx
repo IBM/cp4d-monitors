@@ -199,7 +199,7 @@ When changes are applied to the monitor, restarting the Build Config will re-bui
 
 ```
 export CP4D_PROJECT=<CP4D_PROJECT>
-export CP4D_CRONJOB=cp4d-platform-watsonstudio-runtime-usage-cronjob
+export CP4D_CRONJOB=cp4dplatformwatsonstudioruntimeusage-cronjob
 
 oc start-build -n ${CP4D_PROJECT} cp4d-platform-watsonstudio-runtime-usage                                  
 ```
@@ -247,11 +247,14 @@ export CP4D_PROJECT=<CP4D_PROJECT>
 oc project ${CP4D_PROJECT}
 
 oc exec -it zen-metastoredb-0 /bin/bash
-cp -r /certs/ /tmp/
-cd /tmp/ && chmod -R 0700 certs/
-cd /cockroach 
+
+mkdir /tmp/certs
+cp -Lr /certs/* /tmp/certs
+cd /tmp && chmod 0600 ./certs/*
+cd  /cockroach
 ./cockroach sql --certs-dir=/tmp/certs/ --host=zen-metastoredb-0.zen-metastoredb
 use zen;
+
 drop table policies;
 drop table products;
 drop table monitors;

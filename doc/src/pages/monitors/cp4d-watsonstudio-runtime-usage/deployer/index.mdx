@@ -8,6 +8,8 @@ By default the CP4D monitors codes are pulled from this public Github repository
 
 Optionally, if the Monitor Github repo is cloned into a private Github registry which does require authentication, a vault secret must be created which is used to authenticate to the private Github repo. For example:
 
+More information can be found here: [IBM Cloud Pak Deployer - Monitoring](https://ibm.github.io/cloud-pak-deployer/30-reference/configuration/monitoring/)
+
 ```
 export STATUS_DIR=<Status directory of the Cloud Pak Deployer>
 export CONFIG_DIR=<Configuration folder used by the Cloud Pak Deployer>
@@ -85,65 +87,17 @@ cp4d_monitors:
   cp4d_instance: <OC_PROJECT>
   openshift_cluster_name: <OC_CLUSTER_NAME>
   default_monitor_source_repo: https://github.com/IBM/cp4d-monitors
-  default_monitor_source_token_secret: monitors_source_repo_secret
+  #default_monitor_source_token_secret: monitors_source_repo_secret
   #Optional target Container Registry
-  default_monitor_target_cr: de.icr.io/monitorrepo  
-  default_monitor_target_cr_user_secret: monitors_target_cr_username
-  default_monitor_target_cr_password_secret: monitors_target_cr_password
+  #default_monitor_target_cr: de.icr.io/monitorrepo  
+  #default_monitor_target_cr_user_secret: monitors_target_cr_username
+  #default_monitor_target_cr_password_secret: monitors_target_cr_password
   # List of monitors
   monitors:
-  - name: cp4d-platform-watsonstudio-runtime-usage
-    #monitor_source_repo:             
-    #monitor_source_token_secret:    
-    #monitor_target_cr:              
-    #monitor_target_cr_user_secret:  
-    #monitor_target_cr_user_password:
+  - name: cp4dplatformwatsonstudioruntimeusage
     context: cp4d-watsonstudio-runtime-usage
     label: latest
     schedule: "*/15 * * * *"
-    event_types:
-    - name: "cp4d_watsonstudio_runtime_usage_total_count"
-      simple_name: "Watson Studio Runtime Usage Total Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage Total Count"
-      long_description: "CP4D Watson Studio Runtime Usage Total Count: <cp4d_watsonstudio_runtime_usage_total_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_runtime_usage_project_count"
-      simple_name: "Watson Studio Runtime Usage Project Count"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage Project Count"
-      long_description: "CP4D Watson Studio Runtime Usage Project Count: <cp4d_watsonstudio_runtime_usage_project_count>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_runtime_usage_project_cpu"
-      simple_name: "Watson Studio Runtime Usage Project CPU"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage Project CPU"
-      long_description: "CP4D Watson Studio Runtime Usage Project CPU: <cp4d_watsonstudio_runtime_usage_project_cpu_limit>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_runtime_usage_project_memory"
-      simple_name: "Watson Studio Runtime Usage Project Memory"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage Project Memory"
-      long_description: "CP4D Watson Studio Runtime Usage Project Memory: <cp4d_watsonstudio_runtime_usage_project_memory_limit>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_runtime_usage_cpu"
-      simple_name: "Watson Studio Runtime Usage CPU"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage CPU"
-      long_description: "CP4D Watson Studio Runtime Usage CPU: <cp4d_watsonstudio_runtime_usage_cpu_limit>"
-      resolution: "none"
-      reason_code_prefix: "80"
-    - name: "cp4d_watsonstudio_runtime_usage_memory"
-      simple_name: "Watson Studio Runtime Usage Memory"
-      alert_type: "platform"
-      short_description: "CP4D Watson Studio Runtime Usage Memory"
-      long_description: "CP4D Watson Studio Runtime Usage Memory：<cp4d_watsonstudio_runtime_usage_memory_limit>"
-      resolution: "none"
-      reason_code_prefix: "80"
 ```
 
 ## Run the Cloud Pak Deployer

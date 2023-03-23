@@ -53,17 +53,17 @@ It will generate 2 types of metrics:
 ```
 # HELP cp4d_cognos_task_last_status_duration_in_seconds 
 # TYPE cp4d_cognos_task_last_status_duration_in_seconds gauge
-cp4d_cognos_task_last_status_duration_in_seconds{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1553
+cp4d_cognos_task_last_status_duration_in_seconds{event_type="cp4d_cognos_task_last_status",monitor_type="cp4dplatformcognosconnectionsinfo",reference="Cognos Task_1649746385121619_job_1"} 1553
 # HELP cp4d_cognos_task_last_status_start_epoch_time 
 # TYPE cp4d_cognos_task_last_status_start_epoch_time gauge
-cp4d_cognos_task_last_status_start_epoch_time{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1.64981716e+09
+cp4d_cognos_task_last_status_start_epoch_time{event_type="cp4d_cognos_task_last_status",monitor_type="cp4dplatformcognosconnectionsinfo",reference="Cognos Task_1649746385121619_job_1"} 1.64981716e+09
 # HELP cp4d_cognos_task_last_status_success 
 # TYPE cp4d_cognos_task_last_status_success gauge
-cp4d_cognos_task_last_status_success{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 1
+cp4d_cognos_task_last_status_success{event_type="cp4d_cognos_task_last_status",monitor_type="cp4dplatformcognosconnectionsinfo",reference="Cognos Task_1649746385121619_job_1"} 1
 ```
 
 **Zen Watchdog metrics** (used in platform management events)
-- watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status
+- watchdog_cp4dplatformcognosconnectionsinfo_cp4d_cognos_task_last_status
   
 Zen Watchdog metrics can have the following values:
 - 2 (info)
@@ -71,9 +71,9 @@ Zen Watchdog metrics can have the following values:
 - 0 (critical)
 
 ```
-# HELP watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status 
-# TYPE watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status gauge
-watchdog_cp4d_cognos_task_info_cp4d_cognos_task_last_status{event_type="cp4d_cognos_task_last_status",monitor_type="cp4d_cognos_task_info",reference="Cognos Task_1649746385121619_job_1"} 2
+# HELP watchdog_cp4dplatformcognosconnectionsinfo_cp4d_cognos_task_last_status 
+# TYPE watchdog_cp4dplatformcognosconnectionsinfo_cp4d_cognos_task_last_status gauge
+watchdog_cp4dplatformcognosconnectionsinfo_cp4d_cognos_task_last_status{event_type="cp4d_cognos_task_last_status",monitor_type="cp4dplatformcognosconnectionsinfo",reference="Cognos Task_1649746385121619_job_1"} 2
 ```
 
 

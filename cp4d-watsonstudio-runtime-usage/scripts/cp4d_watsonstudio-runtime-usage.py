@@ -25,7 +25,7 @@ def main():
 
     #definition of monitor_type
     #monitor type should only contain a-z, 0-9 and should start with a-z
-    monitor_type="cp4dwatsonstudioruntimeusage"
+    monitor_type="cp4dplatformwatsonstudioruntimeusage"
     
     #Definition of event_types
     # Note: should only contain a-z, 0-9 and _ characters

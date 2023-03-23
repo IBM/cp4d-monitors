@@ -20,7 +20,7 @@ def convert_last_job_result(status):
 
 def main(): 
     #monitor type should only contain a-z, 0-9 and should start with a-z
-    monitor_type="cp4dwkcinfo"
+    monitor_type="cp4dplatformwatsonknowledgecataloginfo"
 
     event_type_wkc_info_catalog_overall_count=cp4d_monitor.create_and_validate_type("cp4d_wkc_info_catalog_overall_count") 
     event_type_wkc_info_catalog_asset_count=cp4d_monitor.create_and_validate_type("cp4d_wkc_info_catalog_asset_count") 

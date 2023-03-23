@@ -6,7 +6,7 @@ import time
 def main():
     
     #monitor type should only contain a-z, 0-9 and should start with a-z
-    monitor_type="cp4dwatsonstudiojobscheduleinfo"
+    monitor_type="cp4dplatformwatsonstudiojobscheduleinfo"
 
     event_type_watsonstudio_jobs_schedule_overall_count=cp4d_monitor.create_and_validate_type("cp4d_watsonstudio_jobs_schedule_overall_count")    
     event_type_watsonstudio_jobs_schedule_project_count=cp4d_monitor.create_and_validate_type("cp4d_watsonstudio_jobs_schedule_project_count")    

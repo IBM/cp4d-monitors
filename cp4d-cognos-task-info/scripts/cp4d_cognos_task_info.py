@@ -10,7 +10,8 @@ def main():
     #surpress warning on insecure SSL certificate
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
     #definition of monitor_type
-    monitor_type="cp4d-cognos-task-info"
+    #monitor type should only contain a-z, 0-9 and should start with a-z
+    monitor_type="cp4dcognostaskinfo"
     #Definition of event_types
     # Note: should only contain a-z, 0-9 and _ characters
     event_type_cp4d_cognos_task_last_status = cp4d_monitor.create_and_validate_type("cp4d_cognos_task_last_status")

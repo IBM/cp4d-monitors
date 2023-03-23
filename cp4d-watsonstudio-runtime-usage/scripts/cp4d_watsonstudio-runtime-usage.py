@@ -24,7 +24,8 @@ def main():
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
     #definition of monitor_type
-    monitor_type="cp4d-watsonstudio-runtime-usage"
+    #monitor type should only contain a-z, 0-9 and should start with a-z
+    monitor_type="cp4dwatsonstudioruntimeusage"
     
     #Definition of event_types
     # Note: should only contain a-z, 0-9 and _ characters

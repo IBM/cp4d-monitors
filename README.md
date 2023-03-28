@@ -3,6 +3,8 @@ Additional monitors for IBM Cloud Pak for Data, which can be deployed either usi
 
 Please refer to the link: https://ibm.github.io/cp4d-monitors/ for more information. 
 
+More information about the Cloud Pak Deployer can be found here: https://github.com/IBM/cloud-pak-deployer
+
 
 
 
